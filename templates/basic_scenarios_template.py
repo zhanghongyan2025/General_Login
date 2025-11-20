@@ -1,5 +1,5 @@
-# 网约房房东端
-# TEST_BASIC_SCENARIOS_TEMPLATE = [ "empty","username_password_not_match", "invalid_verification_code","lock_account","success" ]
+# # 网约房房东端
+# TEST_BASIC_SCENARIOS_TEMPLATE = ["success" ,"empty","username_password_not_match", "invalid_verification_code","lock_account"]
 #
 # TEST_ERROR_MESSAGES_TEMPLATE  = {
 #     "empty": {
@@ -70,7 +70,7 @@ TEST_ERROR_MESSAGES_TEMPLATE  = {
     },
     "username_password_not_match": {
         "non_existent_user": f"登录用户：{TEST_ACCOUNTS_TEMPLATE['non_existent_user']['username']} 不存在",
-        "wrong_password": "您已输错1次密码，若在24小时内连续输错5次密码，您的账号将被锁定24小时"
+        "wrong_password": "您已输错1次密码，若连续输错5次密码，您的账号将被锁定30分钟"
     },
     "lock_account": {
         "locked_user": "密码输入错误5次，帐户锁定30分钟"
@@ -80,30 +80,30 @@ TEST_ERROR_MESSAGES_TEMPLATE  = {
     }
 }
 
-#
-# def get_error_message(error_type, sub_type, account_type=None):
-#     """
-#     获取替换了账号信息的错误消息
-#
-#     :param error_type: 错误类型（如"username_password_not_match"）
-#     :param sub_type: 具体错误子类型（如"non_existent_user"）
-#     :param account_type: 账号类型（用于获取对应的账号信息）
-#     :return: 替换后的错误消息
-#     """
-#     # 获取原始错误消息模板
-#     try:
-#         msg_template = TEST_ERROR_MESSAGES_TEMPLATE[error_type][sub_type]
-#     except KeyError:
-#         return f"未找到错误类型: {error_type}.{sub_type}"
-#
-#     # 如果需要替换账号信息且存在对应账号信息
-#     if account_type and account_type in TEST_ACCOUNTS_TEMPLATE:
-#         account_info = TEST_ACCOUNTS_TEMPLATE[account_type]
-#         # 替换模板中的占位符
-#         try:
-#             return msg_template.format(**account_info)
-#         except KeyError as e:
-#             return f"错误消息模板中存在未定义的占位符: {e}"
-#
-#     return msg_template
+
+def get_error_message(error_type, sub_type, account_type=None):
+    """
+    获取替换了账号信息的错误消息
+
+    :param error_type: 错误类型（如"username_password_not_match"）
+    :param sub_type: 具体错误子类型（如"non_existent_user"）
+    :param account_type: 账号类型（用于获取对应的账号信息）
+    :return: 替换后的错误消息
+    """
+    # 获取原始错误消息模板
+    try:
+        msg_template = TEST_ERROR_MESSAGES_TEMPLATE[error_type][sub_type]
+    except KeyError:
+        return f"未找到错误类型: {error_type}.{sub_type}"
+
+    # 如果需要替换账号信息且存在对应账号信息
+    if account_type and account_type in TEST_ACCOUNTS_TEMPLATE:
+        account_info = TEST_ACCOUNTS_TEMPLATE[account_type]
+        # 替换模板中的占位符
+        try:
+            return msg_template.format(**account_info)
+        except KeyError as e:
+            return f"错误消息模板中存在未定义的占位符: {e}"
+
+    return msg_template
 

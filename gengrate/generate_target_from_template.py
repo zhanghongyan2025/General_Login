@@ -1,7 +1,7 @@
 # generate_login.py
 from jinja2 import Template
 from templates.login_template import LOGIN_PAGE_TEMPLATE
-from conf.scenarios_setting import *
+import conf.scenarios_setting as scenarios_setting
 from utils.file_util import *
 from utils.scenario_utils import *
 from templates.testcase_template import LOGIN_TESTCASE_TEMPLATE
@@ -14,7 +14,7 @@ def generate_login_page(elements: list, url, output_file: str = "pages/login_pag
     code = template.render(
         elements=elements,
         url=url,
-        TEST_FIELDS=TEST_FIELDS
+        TEST_FIELDS=scenarios_setting.TEST_FIELDS
     )
 
     ensure_file_clear(output_file)
@@ -27,14 +27,14 @@ def generate_login_page(elements: list, url, output_file: str = "pages/login_pag
 
 def generate_testcase(target_url, output_path: str = "test_suits/test_login.py"):
     """根据元素列表和场景生成测试用例"""
-    locked_count, _ = extract_lock_info(TEST_ERROR_MESSAGES["lock_account"].get("locked_user", ""))
+    locked_count, _ = extract_lock_info(scenarios_setting.TEST_ERROR_MESSAGES["lock_account"].get("locked_user", ""))
     render_data = {
         "LOCKED_COUNT": locked_count,
         "TARGET_URL": target_url,
-        "TEST_SCENARIOS": TEST_SCENARIOS,
-        "TEST_FIELDS": TEST_FIELDS,
-        "TEST_ERROR_MESSAGES": TEST_ERROR_MESSAGES,
-        "TEST_ACCOUNTS": TEST_ACCOUNTS
+        "TEST_SCENARIOS": scenarios_setting.TEST_SCENARIOS,
+        "TEST_FIELDS": scenarios_setting.TEST_FIELDS,
+        "TEST_ERROR_MESSAGES": scenarios_setting.TEST_ERROR_MESSAGES,
+        "TEST_ACCOUNTS": scenarios_setting.TEST_ACCOUNTS
     }
 
     template = Template(LOGIN_TESTCASE_TEMPLATE)
