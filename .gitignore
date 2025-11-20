@@ -1,0 +1,14 @@
+﻿# 忽略所有以 . 开头的隐藏文件和目录
+.*
+
+# 例外：不忽略 .gitignore 本身
+!.gitignore
+
+# 例外：如果需要保留 .vscode 目录（可选，根据需求添加）
+#!.vscode/
+#!.vscode/settings.json
+
+# 忽略 Python 编译缓存目录和文件
+__pycache__/
+*.py[cod]
+*$py.class
